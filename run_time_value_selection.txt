@@ -1,0 +1,21 @@
+node('Agent-1') {
+    def task_Type
+    def app_Name
+    def admin_task
+    def env_Name
+    def artifact_ID
+
+    stage ('Select'){
+        app_Name = input( id: 'userInput', message: 'Please select Application Name', parameters: [[$class: 'ChoiceParameterDefinition', choices: 'WebApp\nDB\nMessaging\nMonitoring', description: '', name: '']])
+        echo "applicationName:${app_Name}"
+        task_Type = input( id: 'userInput', message: 'Please select Task Type', parameters: [[$class: 'ChoiceParameterDefinition', choices: 'Deployment\nAdmin', description: '', name: '']])
+        echo "Task Type:${task_Type}"
+      if(task_Type.equals("Admin")){
+            admin_task = input( id: 'userInput', message: 'Select your Admin Task', parameters: [[$class: 'ChoiceParameterDefinition', choices: 'Start\nStop\nRestart\nStatus', description: '', name: '']])
+            echo "Admin Task Type:${admin_task}"
+        }else{
+            artifact_ID = input( id: 'userInput', message: 'Provide Deployment artifactID', parameters: [[$class: 'TextParameterDefinition', defaultValue: '', description: 'Please provide ArtifactID to build', name: 'DEV_PROJECT']])
+            echo "Artifact ID:${artifact_ID}"
+        }
+    }
+}
